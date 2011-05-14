@@ -12,6 +12,10 @@ TinyMagic is a joung project, only Metadata exctraction is implemented jet.
 
 Bug reports, feature pequests and most appreciated: pull requests are welcome!
 
+== Tanks
+
+* To all mini_magick authors, I'm stealing your wounderful test images and some coding ideas.
+
 == Contributing to tinymagick
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
