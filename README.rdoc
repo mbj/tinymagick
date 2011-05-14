@@ -1,7 +1,7 @@
 = tinymagick
 
 TinyMagic will be a tiny wrapper around the ImageMagick cli tools "identify" and "mogrify".
-It should be similar to mini_magick, with the following differences:
+It should be similar to mini-magick, with the following differences:
 
 * More reliable. It threads warnings as errors, it does not mess up metadata when warnings occur.
 * More robust, it is planned to use Process setrlimit attributes to limit cpu, memory and other resources. (configurable)
@@ -14,7 +14,7 @@ Bug reports, feature pequests and most appreciated: pull requests are welcome!
 
 == Tanks
 
-* To all mini_magick authors, I'm stealing your wounderful test images and some coding ideas.
+* To all mini-magick authors, I'm stealing your wounderful test images and some coding ideas.
 
 == Contributing to tinymagick
  
