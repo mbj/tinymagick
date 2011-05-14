@@ -7,9 +7,17 @@ describe 'TinyMagick' do
   describe '.indentify' do
     shared_examples_for 'successful identification' do
       subject { result }
-      specify { should be_valid }
+      it { should be_valid }
       its(:status) { should be_zero }
       its(:error) { should be_nil }
+    end
+
+    context 'with a non image' do
+      let(:path) { 'spec/data/not_an_image.php' }
+      subject { result }
+      its(:error) { should =~ %r(\A#{Regexp.escape(%s{identify: no decode delegate for this image format `spec/data/not_an_image.php'})}) }
+      its(:status) { should == 1 }
+      it { should_not be_valid }
     end
 
     context 'with an animated gif' do
