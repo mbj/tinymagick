@@ -2,19 +2,80 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe 'TinyMagick' do
   let(:result) { TinyMagick.identify(path) }
+
   let(:attributes) { result.attributes }
   describe '.indentify' do
     shared_examples_for 'successful identification' do
-      specify { result.should be_valid }
-      specify { result.status.should == 0 }
-      specify { result.error.should be_nil }
+      subject { result }
+      specify { should be_valid }
+      its(:status) { should be_zero }
+      its(:error) { should be_nil }
+    end
+
+    context 'with an animated gif' do
+      let(:path) { 'spec/data/animation.gif' }
+      it_should_behave_like 'successful identification'
+
+      it 'should have correct attributes' do
+        attributes.should == {
+         'size'=>10018,
+         'comment'=>'',
+         'directory'=>'spec/data',
+         'ext'=>'gif',
+         'filename'=>'animation.gif',
+         'geometry'=>'100x100+0+0',
+         'height'=>100,
+         'input_filename'=>'spec/data/animation.gif',
+         'number_of_unique_colors'=>182,
+         'label'=>'',
+         'magick_format'=>'GIF',
+         'number_of_images'=>2,
+         'output_filename'=>'',
+         'index'=>'1',
+         'quantum_depth'=>16,
+         'colorspace'=>'PseudoClassRGBMatte',
+         'scene_number'=>1,
+         'top_of_filename'=>'animation',
+         'temporary_filename'=>'',
+         'width'=>100,
+         'x_resolution'=>'72 Undefined',
+         'y_resolution'=>'72 Undefined',
+         'image_depth'=>8,
+         'transparency_enabled'=>true,
+         'compression_type'=>'LZW',
+         'dispose_method'=>'None',
+         'image_size'=>'100x100',
+         'page_canvas_height'=>100,
+         'page_canvas_offset'=>'+0+0',
+         'page_canvas_size'=>'100x100',
+         'compression_quality'=>'0',
+         'scenes'=>'2147483647',
+         'time_delay'=>'6',
+         'page_canvas_width'=>100,
+         'page_canvas_x_offset'=>'+0',
+         'page_canvas_y_offset'=>'+0',
+         'bounding_box'=>'100x100+0+0',
+         'signature'=> 'fa432bf2da872848e64f933939c5252c78f78353201a1d1fa178be2907b39ecf',
+         'error'=>nil,
+         'valid'=>true,
+         'status'=>0
+        }
+      end
+    end
+
+    context 'with gif in a file extended as .jpg' do
+      let(:path) { 'spec/data/actually_a_gif.jpg' }
+      it_should_behave_like 'successful identification'
+      specify 'magick_format should be reported correctly' do
+        result.magick_format.should == 'GIF'
+      end
     end
 
     context 'with gif' do
       let(:path) { 'spec/data/simple.gif' }
       it_should_behave_like 'successful identification'
 
-      specify do
+      it 'should have correct attributes' do
         attributes.should == {
           'size'=>4707,
           'comment'=>'',
@@ -65,7 +126,7 @@ describe 'TinyMagick' do
       let(:path) { 'spec/data/good.pdf' }
       it_should_behave_like 'successful identification'
 
-      specify do 
+      it 'should have correct attributes' do 
         attributes.should == {
           'size'=>314385,
           'comment'=>'',
@@ -113,11 +174,11 @@ describe 'TinyMagick' do
     end
 
     context 'with bad pdf' do
-      let(:result) { TinyMagick.identify('spec/data/bad.pdf') }
-      specify { result.should_not be_valid }
-      specify { result.status.should == 0 }
-      specify do 
-        result.error.should == <<-MESSAGE
+      let(:path) { 'spec/data/bad.pdf' }
+      subject { result }
+      specify { should_not be_valid }
+      its(:status) { should == 0 }
+      its(:error) do should == <<-MESSAGE
    **** Warning: Short look-up table in the Indexed color space was padded with 0's.
 
    **** This file had errors that were repaired or ignored.
@@ -132,11 +193,11 @@ describe 'TinyMagick' do
     end
 
     context 'with missing file' do
-      let(:result) { TinyMagick.identify('spec/data/missing.pdf') }
-      specify { result.should_not be_valid }
-      specify { result.status.should == 1 }
-      specify { result.error.should =~ %r(\A#{Regexp.escape('identify: unable to open image `spec/data/missing.pdf')}) }
+      let(:path) { 'spec/data/missing.pdf' }
+      subject { result }
+      specify { should_not be_valid }
+      its(:status) { should == 1 }
+      its(:error) { should =~ %r(\A#{Regexp.escape('identify: unable to open image `spec/data/missing.pdf')}) }
     end
-
   end
 end
