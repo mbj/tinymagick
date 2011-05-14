@@ -3,7 +3,7 @@
 TinyMagic will be a tiny wrapper around the ImageMagick cli tools "identify" and "mogrify".
 It should be similar to mini_magick, with the following differences:
 
-* More relihable. It threads warnings as errors, it does not mess up metadata when warnings occur.
+* More reliable. It threads warnings as errors, it does not mess up metadata when warnings occur.
 * More robust, it is planned to use Process setrlimit attributes to limit cpu, memory and other resources. (configurable)
 * More metadata: most of http://www.imagemagick.org/script/escape.php is implemented.
 * Efficient metadata extraction. mini_magic uses one fork per attribute, tinymagick collects all attributes in one identify execution.
