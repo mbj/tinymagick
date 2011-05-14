@@ -86,6 +86,13 @@ module TinyMagick
           key,value = $1,$2
           value = case key
           when 'size' then value =~ /\A([0-9]+)B\Z/ ? $1.to_i : raise("invalid size: #{value.inspect}")
+          when 'transparency_enabled' then 
+            case value
+            when 'True' then true
+            when 'False' then false
+            else
+              raise("invalud boolean for #{key}: #{value.inspect}")
+            end
           when 'height', 'width', 'number_of_unique_colors', 'number_of_images','quantum_depth','scene_number','image_depth','page_canvas_height','page_canvas_width' then
             value =~ /\A([0-9]+)\Z/ ? $1.to_i : raise("invalid #{key.inspect}: #{value.inspect}")
           else value

@@ -33,7 +33,7 @@ describe "TinyMagick" do
           "x_resolution"=>"72 Undefined",
           "y_resolution"=>"72 Undefined",
           "image_depth"=>16,
-          "transparency_enabled"=>"True",
+          "transparency_enabled"=>true,
           "compression_type"=>"Undefined",
           "dispose_method"=>"Undefined",
           "image_size"=>"595x842",
