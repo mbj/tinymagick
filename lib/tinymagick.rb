@@ -86,6 +86,7 @@ module TinyMagick
           key,value = $1,$2
           value = case key
           when 'size' then value =~ /\A([0-9]+)B\Z/ ? $1.to_i : raise("invalid size: #{value.inspect}")
+          when 'dispose_method','compression_type' then value == 'Undefined' ? nil : value
           when 'transparency_enabled' then 
             case value
             when 'True' then true
