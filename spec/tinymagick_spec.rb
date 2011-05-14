@@ -20,5 +20,12 @@ describe "TinyMagick" do
         MESSAGE
       end
     end
+
+    context 'with missing file' do
+      let(:result) { TinyMagick.identify('spec/data/missing.pdf') }
+      specify { result.should_not be_valid }
+      specify { result.status.should == 1 }
+      specify { result.error.should =~ %r(\A#{Regexp.escape('identify: unable to open image `spec/data/missing.pdf')}) }
+    end
   end
 end
